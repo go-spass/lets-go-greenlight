@@ -2,6 +2,9 @@
 
 BUILD_DIR ?= ./bin
 
+healthcheck:
+	curl -i localhost:4000/v1/healthcheck
+
 fmt:
 	go fmt ./...
 
@@ -25,4 +28,4 @@ api: vet
 
 all: api
 
-.PHONY: all api vet lint fmt test bench clean
+.PHONY: all api healthcheck vet lint fmt test bench clean
