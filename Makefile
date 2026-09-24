@@ -21,7 +21,7 @@ clean:
 	rm -r $(BUILD_DIR)
 
 api: vet
-	go build -o $(BUILD_DIR)/api cmd/api/main.go
+	go build -o $(BUILD_DIR)/api ./cmd/api
 
 all: api
 
