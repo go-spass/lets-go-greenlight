@@ -11,8 +11,14 @@ purpose they’ll serve in our finished project.
 ├── bin
 ├── cmd
 │   └── api
-│       └── main.go
+│       ├── healthcheck.go
+│       ├── helpers.go
+│       ├── helpers_test.go
+│       ├── main.go
+│       ├── movies.go
+│       └── routes.go
 ├── go.mod
+├── go.sum
 ├── internal
 ├── LICENSE
 ├── Makefile
@@ -26,7 +32,7 @@ purpose they’ll serve in our finished project.
   to a production server.
 * `cmd/api` will contain the application-specific code for our
   Greenlight API
-  application. This will include the code   for running the server,
+  application. This will include the code for running the server,
   reading and writing HTTP requests, and managing authentication.
 * `internal` will contain various ancillary packages used by our
   API. It will
@@ -46,23 +52,19 @@ purpose they’ll serve in our finished project.
   administrative tasks — like auditing our Go code, building binaries,
   and executing database migrations.
 
-## API's
+## APIs
 API endpoints and RESTful routing
 Over the next few sections of this book, we’re going to gradually build up our API so that the endpoints start to look like this:
 
-| Method | URL Pattern      | Handler            | Action                                 |
-|:------ | :--------------- | :----------------  | :--------------------------------------|
-| GET    |	/v1/healthcheck |	healthcheckHandler | Show application information           |
-| GET    |	/v1/movies      |	listMoviesHandler  | Show the details of all movies         |
-| POST   |	/v1/movies      |	createMovieHandler | Create a new movie                     |
-| GET    |	/v1/movies/:id  |	showMovieHandler   | Show the details of a specific movie   |
-| PUT    |	/v1/movies/:id  |	editMovieHandler   | Update the details of a specific movie |
-| DELETE |	/v1/movies/:id  |	deleteMovieHandler | Delete a specific movie                |
+| Method | URL Pattern     | Handler            | Action                                 |
+| :----- | :-------------- | :----------------- | :------------------------------------- |
+| GET    | /v1/healthcheck | healthcheckHandler | Show application information           |
+| GET    | /v1/movies      | listMoviesHandler  | Show the details of all movies         |
+| POST   | /v1/movies      | createMovieHandler | Create a new movie                     |
+| GET    | /v1/movies/:id  | showMovieHandler   | Show the details of a specific movie   |
+| PUT    | /v1/movies/:id  | editMovieHandler   | Update the details of a specific movie |
+| DELETE | /v1/movies/:id  | deleteMovieHandler | Delete a specific movie                |
 
 > Note: The book recommends using [httprouter](https://github.com/julienschmidt/httprouter)
-> which I will do as I follow along, however I am not convinced this actually a good choice.
+> which I will do as I follow along, however I am not convinced this is actually a good choice.
 > Something to revisit in the future.
-
-
-
-
