@@ -10,7 +10,18 @@ import (
 func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
 	app.logger.Info("entered healthcheckHandler", "method", r.Method, "request", r.RequestURI)
 
-	_, _ = fmt.Fprintln(w, "status: available")
-	_, _ = fmt.Fprintf(w, "environment: %s\n", app.config.env)
-	_, _ = fmt.Fprintf(w, "version: %s\n", version)
+	// Create a fixed-format JSON response from a string. Notice how we're using a raw
+	// string literal (enclosed with backticks) so that we can include double quote
+	// characters in the JSON without needing to escape them? We also use the %q verb to
+	// wrap the interpolated values in double quotes.
+	js := `{"status": "available", "environment": %q, "version": %q}`
+	js = fmt.Sprintf(js, app.config.env, version)
+
+	// Set the "Content-Type: application/json" header on the response. If you forget to do
+	// this, Go will default to sending a "Content-Type: text/plain; charset=utf-8"
+	// header instead.
+	w.Header().Set("Content-Type", "application/json")
+
+	// Write the JSON as the HTTP response body.
+	_, _ = w.Write([]byte(js))
 }
